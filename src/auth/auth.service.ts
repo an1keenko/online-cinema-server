@@ -28,10 +28,12 @@ export class AuthService {
 
   async register({ email, password }: AuthDto) {
     const salt = await genSalt(10)
+
     const newUser = new this.UserModel({
       email,
       password: await hash(password, salt),
     })
+
     const user = await newUser.save()
 
     const tokens = await this.issueTokenPair(String(user._id))
