@@ -5,8 +5,6 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common'
 import { FileService } from './file.service'
 import { Auth } from '../auth/decorators/auth.decorators'
@@ -19,7 +17,7 @@ export class FileController {
   @Post()
   @HttpCode(200)
   @Auth('admin')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Query('folder') folder?: string,

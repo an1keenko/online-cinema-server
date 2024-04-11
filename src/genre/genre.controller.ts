@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  Logger,
   NotFoundException,
   Param,
   Post,
@@ -24,7 +23,9 @@ export class GenreController {
 
   @Get('by-slug/:slug')
   async bySlug(@Param('slug') slug: string) {
-    return this.genreService.bySlug(slug)
+    const doc = await this.genreService.bySlug(slug)
+    if (!doc) throw new NotFoundException('Genre not found')
+    return doc
   }
 
   @Get()
