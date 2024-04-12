@@ -7,7 +7,7 @@ import { GenreModel } from './genre.model'
 @Injectable()
 export class GenreService {
   constructor(
-    @InjectModel(GenreModel) private readonly genreModel: ModelType<GenreModel>,
+    @InjectModel(GenreModel) private readonly GenreModel: ModelType<GenreModel>,
   ) {}
 
   async getAll(searchTerm?: string): Promise<DocumentType<GenreModel>[]> {
@@ -29,20 +29,18 @@ export class GenreService {
       }
     }
 
-    return this.genreModel
-      .find(options)
+    return this.GenreModel.find(options)
       .select('-updatedAt -__v')
       .sort({ createdAt: 'desc' })
       .exec()
   }
 
   async bySlug(slug: string): Promise<DocumentType<GenreModel>> {
-    return this.genreModel.findOne({ slug }).exec()
+    return this.GenreModel.findOne({ slug }).exec()
   }
 
   async getPopular(): Promise<DocumentType<GenreModel>[]> {
-    return this.genreModel
-      .find()
+    return this.GenreModel.find()
       .select('-updatedAt -__v')
       .sort({ createdAt: 'desc' })
       .exec()
@@ -58,7 +56,7 @@ export class GenreService {
   /* Admin area */
 
   async byId(id: string): Promise<DocumentType<GenreModel>> {
-    return this.genreModel.findById(id).exec()
+    return this.GenreModel.findById(id).exec()
   }
 
   async create(): Promise<Types.ObjectId> {
@@ -68,7 +66,7 @@ export class GenreService {
       name: '',
       slug: '',
     }
-    const genre = await this.genreModel.create(defaultValue)
+    const genre = await this.GenreModel.create(defaultValue)
     return genre._id
   }
 
@@ -76,10 +74,10 @@ export class GenreService {
     id: string,
     dto: CreateGenreDto,
   ): Promise<DocumentType<GenreModel> | null> {
-    return this.genreModel.findByIdAndUpdate(id, dto, { new: true }).exec()
+    return this.GenreModel.findByIdAndUpdate(id, dto, { new: true }).exec()
   }
 
   async delete(id: string): Promise<DocumentType<GenreModel> | null> {
-    return this.genreModel.findByIdAndDelete(id).exec()
+    return this.GenreModel.findByIdAndDelete(id).exec()
   }
 }
